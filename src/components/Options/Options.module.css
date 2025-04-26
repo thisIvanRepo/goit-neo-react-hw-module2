@@ -1,0 +1,6 @@
+.containerBtn {
+  display: flex;
+  gap: 15px;
+  max-width: fit-content;
+  margin-bottom: 30px;
+}
