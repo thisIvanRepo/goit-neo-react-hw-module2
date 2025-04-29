@@ -1,6 +1,6 @@
 import React from "react";
 
-const Descriptions = () => (
+const Description = () => (
   <>
     <h1>Sip Happens Café</h1>
     <p>
@@ -10,4 +10,4 @@ const Descriptions = () => (
   </>
 );
 
-export default Descriptions;
+export default Description;
