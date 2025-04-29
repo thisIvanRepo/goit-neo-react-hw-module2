@@ -3,6 +3,7 @@ import "./App.css";
 import Descriptions from "./components/Descriptions/Descriptions";
 import Feedback from "./components/Feedback/Feedback";
 import Options from "./components/Options/Options";
+import Notification from "./components/Notification/Notification";
 
 function App() {
   const [reviews, setReviews] = useState(() => {
@@ -16,11 +17,20 @@ function App() {
         };
   });
 
+  const [positiveRev, setPosotiveRev] = useState(0);
+
+  const totalFeedback = calculateRevs(reviews);
+
   useEffect(() => {
     localStorage.setItem("reviews", JSON.stringify(reviews));
   }, [reviews]);
 
-  const totalFeedback = calculateRevs(reviews);
+  useEffect(() => {
+    const positive =
+      totalFeedback > 0 ? Math.round((reviews.good / totalFeedback) * 100) : 0;
+
+    setPosotiveRev(positive);
+  }, [reviews, totalFeedback]);
 
   const updateFeedback = (feedbackType) => {
     setReviews((prevRev) => ({
@@ -50,12 +60,17 @@ function App() {
         handleFeedback={updateFeedback}
         handleReset={resetRev}
       />
-      <Feedback
-        good={reviews.good}
-        bad={reviews.bad}
-        neutral={reviews.neutral}
-        total={totalFeedback}
-      />
+      {totalFeedback === 0 ? (
+        <Notification />
+      ) : (
+        <Feedback
+          good={reviews.good}
+          bad={reviews.bad}
+          neutral={reviews.neutral}
+          total={totalFeedback}
+          positive={positiveRev}
+        />
+      )}
     </>
   );
 }
